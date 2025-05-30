@@ -3,6 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from './../public/vite.svg'
 import './App.scss'
 import NavbarComponent from './component/navbar/navbar.component'
+import MidSectionComponent from './component/mid/mid-section.component'
 
 function App() {
 
@@ -20,8 +21,13 @@ function App() {
         </div>
       </div>
       
+      <div className='row'>
+        <div className='col'>
+          <MidSectionComponent /> 
+        </div>
+      </div>
       
-
+      
     </div>
       
   )

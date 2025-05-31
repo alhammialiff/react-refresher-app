@@ -20,13 +20,14 @@ function App() {
   const [count, setCount] = useState(0)
   const [name, setName] = useState(null)
   const [welcomeMessage, showWelcomeMessage] = useState(false)
+  const [apiSignalData, setApiSignalData] = useState(null)
 
   useEffect(() => {
-
-    const response = postApiTestSignal();
-
-    console.log();
-
+    const fetchApiSignal = async () => {
+      const response = await postApiTestSignal();
+      setApiSignalData(response);
+    };
+    fetchApiSignal();
   }, []);
 
   return (

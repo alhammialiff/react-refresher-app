@@ -11,7 +11,7 @@ export const postApiTestSignal = () => {
     // ==========================================
     // POST API Signal Test
     // ==========================================
-    fetch(baseUrl + '/api/test', {
+    return fetch(baseUrl + '/api/test', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

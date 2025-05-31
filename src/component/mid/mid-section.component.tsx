@@ -11,7 +11,9 @@ function MidSectionComponent(){
 
         <>
             <div className="row">
-                <HomeComponent datasetImages={[]} />
+                <div className="col">
+                    <HomeComponent datasetImages={[]} />
+                </div>
             </div>
         </>
 

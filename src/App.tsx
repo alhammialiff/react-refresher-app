@@ -1,15 +1,33 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './../public/vite.svg'
 import './App.scss'
 import NavbarComponent from './component/navbar/navbar.component'
 import MidSectionComponent from './component/mid/mid-section.component'
+import { postApiTestSignal } from './service/api-service/api.service'
 
 function App() {
+
+  //==========================================================
+  // Todo -:
+  // (1) API Signal Test
+  // (2) API to get dataset image
+  // (3) Create ModelCreationContainerComponent
+  // (4) Forms for training/test output
+  // (5) 
+  //==========================================================
 
   const [count, setCount] = useState(0)
   const [name, setName] = useState(null)
   const [welcomeMessage, showWelcomeMessage] = useState(false)
+
+  useEffect(() => {
+
+    const response = postApiTestSignal();
+
+    console.log();
+
+  }, []);
 
   return (
 

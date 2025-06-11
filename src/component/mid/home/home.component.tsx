@@ -1,3 +1,4 @@
+import DatasetCardComponent from './dataset-card/dataset-card.component';
 import './home.component.scss';
 import { HomeComponentProps } from './types/home.model';
 
@@ -10,7 +11,24 @@ function HomeComponent(props: HomeComponentProps){
     //  - Each grid route to :id route,
     //    pointing to the Playground page with
     //    selected id
-
+    const dummyDatasetCardData = [
+        {
+            title: 'Iris',
+            imagePath: 'public/iris.jpg'
+        },
+        {
+            title: 'Heart Disease',
+            imagePath: 'public/heart-disease.jpg'
+        },
+        {
+            title: 'Bank Marketing',
+            imagePath: 'public/bank-marketting.jpg'
+        },
+        {
+            title: 'Student Performance',
+            imagePath: 'public/student-performance.jpg'
+        }
+    ]
 
     return (    
         <>
@@ -21,7 +39,7 @@ function HomeComponent(props: HomeComponentProps){
                 </h2>
 
                 <p className='m-3 mt-0'>
-                    Powered by Tensorflow, DLoodler (I don't even how to pronounce this either) makes it easy to tinker with deep learning models.
+                    Powered by Pytorch, DLoodler (I don't even how to pronounce this either) makes it easy to tinker with deep learning models.
                 </p>
                 <p className='m-3 mt-0'>
                     The idea of DLoodler is to enable anyone - be it beginner, hobbyists, or revisiting practitioners to jump right in, and learn or re-learn, about deep learning. 
@@ -43,33 +61,25 @@ function HomeComponent(props: HomeComponentProps){
                     
                     <div className="row m-4 mt-0"
                         id="top-grid-thumbnail-link">
-                    
-                        <div className='col m-3 mb-0 thumbnail-card'>
-                            Thumbnail #1
-                        </div>
-                    
-                        <div className='col m-3 mb-0 thumbnail-card'>
-                            Thumbnail #2
-                        </div>
-                    
-                    </div>
-                    
-                    <div className="row m-4"
-                        id="btm-grid-thumbnail-link">
                         
-                        <div className='col m-3 thumbnail-card'>
-                            Thumbnail #3
-                        </div>
-                        
-                        <div className='col m-3 thumbnail-card'>
-                            Thumbnail #4
-                        </div>
-                    
+                       { 
+                            dummyDatasetCardData.map((dataset)=>{
+                                return (
+
+                                    <DatasetCardComponent title={dataset.title} imagePath={dataset.imagePath} />
+
+                                )
+                            })
+                        }
+
                     </div>
                 
                 </div>
 
             </div>
+
+            <hr />
+
 
             
         </>

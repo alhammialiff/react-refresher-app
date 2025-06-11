@@ -1,0 +1,16 @@
+.dataset-card {
+    cursor: pointer;
+    font-weight: 600;
+    color: black;
+    text-shadow: 1px 1px 1px #e4e4e4;
+    font-size: 1.2rem;
+}
+
+.dataset-card:hover{
+    color: #c4c4c4;
+    filter: grayscale(60%);
+    transition: filter 0.3s ease-in;
+    transition: color 0.3s ease-in;
+
+}
+    

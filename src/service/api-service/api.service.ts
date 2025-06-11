@@ -22,8 +22,7 @@ export const postApiTestSignal = () => {
             timestamp: getCurrentTimestamp()
         } as PostRequest<null>)
     })
-        .then(
-            (response: Response) => {
+        .then((response: Response) => {
                 if (response) {
                     return response;
                 } else {

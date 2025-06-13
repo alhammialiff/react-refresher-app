@@ -17,7 +17,8 @@ function DatasetCardComponent(props: DatasetCardComponentProps) {
             justify-content-center 
             align-items-center
             dataset-card'
-            style={styles}>
+            style={styles}
+            onClick={props.onClick}>
 
             {props.title}
         

@@ -1,0 +1,53 @@
+.main-table-grid{
+
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  // padding: 10px;
+
+}
+
+.data-grid-container{
+
+  height: 400px;
+  overflow: scroll;
+  text-align: center;
+  // padding: 10px;
+
+}
+
+.attribute-grid{
+
+  border: 1px solid rgb(7, 80, 7);
+  background-color: rgb(7, 80, 7);
+  text-align: center;
+  color: white;
+  padding: 10px;
+
+}
+
+.data-grid-row{
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+
+}
+
+.data-grid-row:nth-child(odd){
+  background-color: rgb(212, 212, 212);
+}
+
+.data-cell:first-child{
+  font-weight: 800;
+}
+
+.attribute-grid:first-child{
+
+  border-top-left-radius: 12px;
+
+}
+
+.attribute-grid:last-child{
+
+  border-top-right-radius: 12px;
+
+}

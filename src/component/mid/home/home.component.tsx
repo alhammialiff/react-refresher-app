@@ -1,11 +1,14 @@
+import { useState } from 'react';
 import DatasetCardComponent from './dataset-card/dataset-card.component';
+import DatasetTableComponent from './dataset-table/dataset-table.component';
 import './home.component.scss';
 import { HomeComponentProps } from './types/home.model';
 
 function HomeComponent(props: HomeComponentProps){
 
+    const [selectedDataset, setSelectedDataset] = useState<string | null>(null);
+
     // What do I need?
-    // (1) Welcome to 
     // 2x2 grid that takes in:
     //  - Dataset Thumbnail Image
     //  - Each grid route to :id route,
@@ -14,19 +17,26 @@ function HomeComponent(props: HomeComponentProps){
     const dummyDatasetCardData = [
         {
             title: 'Iris',
-            imagePath: 'public/iris.jpg'
+            imagePath: 'public/images/iris.jpg',
+            datasetPath: '/dataset/iris.csv'
         },
         {
             title: 'Heart Disease',
-            imagePath: 'public/heart-disease.jpg'
+            imagePath: 'public/images/heart-disease.jpg',
+            datasetPath: '/dataset/iris.csv'
+
         },
         {
             title: 'Bank Marketing',
-            imagePath: 'public/bank-marketting.jpg'
+            imagePath: 'public/images/bank-marketting.jpg',
+            datasetPath: '/dataset/iris.csv'
+
         },
         {
             title: 'Student Performance',
-            imagePath: 'public/student-performance.jpg'
+            imagePath: 'public/images/student-performance.jpg',
+            datasetPath: '/dataset/iris.csv'
+
         }
     ]
 
@@ -65,8 +75,11 @@ function HomeComponent(props: HomeComponentProps){
                        { 
                             dummyDatasetCardData.map((dataset)=>{
                                 return (
-
-                                    <DatasetCardComponent title={dataset.title} imagePath={dataset.imagePath} />
+                                    // To change key with uuid in future
+                                    <DatasetCardComponent key={dataset.title} 
+                                        title={dataset.title} 
+                                        imagePath={dataset.imagePath} 
+                                        onClick={()=> setSelectedDataset(dataset.datasetPath)} />
 
                                 )
                             })
@@ -79,6 +92,13 @@ function HomeComponent(props: HomeComponentProps){
             </div>
 
             <hr />
+            
+            {   
+                selectedDataset &&
+                <div className='row'>
+                    <DatasetTableComponent datasetPath={selectedDataset} />
+                </div>
+            }
 
 
             

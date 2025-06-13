@@ -3,6 +3,7 @@ import DatasetCardComponent from './dataset-card/dataset-card.component';
 import DatasetTableComponent from './dataset-table/dataset-table.component';
 import './home.component.scss';
 import { HomeComponentProps } from './types/home.model';
+import JumbotronComponent from '../../header/jumbotron.component';
 
 function HomeComponent(props: HomeComponentProps){
 
@@ -41,61 +42,44 @@ function HomeComponent(props: HomeComponentProps){
     ]
 
     return (    
-        <>
-            <div className='row m-4'>
+        <>  
+            <JumbotronComponent />
+            <div className='row p-4'>
 
-                <h2 className='m-3'>
-                    A doodleboard for deep learning
-                </h2>
-
-                <p className='m-3 mt-0'>
-                    Powered by Pytorch, DLoodler (I don't even how to pronounce this either) makes it easy to tinker with deep learning models.
-                </p>
-                <p className='m-3 mt-0'>
-                    The idea of DLoodler is to enable anyone - be it beginner, hobbyists, or revisiting practitioners to jump right in, and learn or re-learn, about deep learning. 
-                </p>
-
-            </div>
-
-            <div className='row m-4 my-0'>
-
-                <h3 className='m-3 mb-0'>
+                <h3 className='col'>
                     Pick a dataset to start tinkering
                 </h3>
                 
             </div>
 
-            <div className='row'>
-
-                <div className='container p-4'>
-                    
-                    <div className="row m-4 mt-0"
-                        id="top-grid-thumbnail-link">
-                        
-                       { 
-                            dummyDatasetCardData.map((dataset)=>{
-                                return (
-                                    // To change key with uuid in future
-                                    <DatasetCardComponent key={dataset.title} 
-                                        title={dataset.title} 
-                                        imagePath={dataset.imagePath} 
-                                        onClick={()=> setSelectedDataset(dataset.datasetPath)} />
-
-                                )
-                            })
-                        }
-
-                    </div>
+            <div className="row p-4"
+                id="top-grid-thumbnail-link">
                 
-                </div>
+                { 
+                    dummyDatasetCardData.map((dataset)=>{
+                        return (
+                            // To change key with uuid in future
+                            <DatasetCardComponent key={dataset.title} 
+                                title={dataset.title} 
+                                imagePath={dataset.imagePath} 
+                                onClick={()=> setSelectedDataset(dataset.datasetPath)} />
+
+                        )
+                    })
+                }
 
             </div>
+                
 
             <hr />
-            
+
+            <div className="row p-4">
+                <h3>Take a peek at your dataset</h3>
+            </div>
+
             {   
                 selectedDataset &&
-                <div className='row'>
+                <div className='row px-4'>
                     <DatasetTableComponent datasetPath={selectedDataset} />
                 </div>
             }

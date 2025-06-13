@@ -32,7 +32,7 @@ function DatasetTableComponent(props:DatasetTableProps) {
 
 
     return ( 
-        <div className="container">
+        <div className="container px-0">
             <div className="main-table-grid">
                 {
                     dataset[0] && 

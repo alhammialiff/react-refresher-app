@@ -8,22 +8,20 @@ function DatasetCardComponent(props: DatasetCardComponentProps) {
     }
     
     return ( 
-        
-        <div className='col 
-            m-3 
-            mb-0 
-            thumbnail-card 
-            d-flex 
-            justify-content-center 
-            align-items-center
-            dataset-card'
-            style={styles}
-            onClick={props.onClick}>
+        <>
+            <div className='col 
+                thumbnail-card 
+                d-flex 
+                justify-content-center 
+                align-items-center
+                dataset-card'
+                style={styles}
+                onClick={props.onClick}>
 
-            {props.title}
-        
-        </div>
-
+                {props.title}
+            
+            </div>
+        </>
     );
 
 }

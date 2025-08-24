@@ -10,9 +10,10 @@ function JumbotronComponent() {
             p-5">
             <div className='row'>
                 <div className="col">
-                    <h1 className='highlighted-title'>Fabrication Machine 01</h1>
+                    <h1 className='highlighted-title'>Productivity Health - Fabrication Machine 01</h1>
                 </div>
             </div>
+            
             <div className='row'>
                 <div className="col">
                     <h4 className='highlighted-title'>Fabrication Floor - Section 1A</h4>

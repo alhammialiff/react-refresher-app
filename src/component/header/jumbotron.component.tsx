@@ -10,19 +10,15 @@ function JumbotronComponent() {
             p-5">
             <div className='row'>
                 <div className="col">
-                    <h1 className='highlighted-title'>A doodleboard for deep learning</h1>
+                    <h1 className='highlighted-title'>Fabrication Machine 01</h1>
                 </div>
             </div>
             <div className='row'>
                 <div className="col">
-                    <h5>
-                        Seen the layers in your study notes, but not interactively? Or have worked on it before in the past, but a lost knowledge now?
-                    </h5>
-                    <h5>
-                       Try this little canvas as you <span className="highlighted-text">rekindle your spark with deep learning</span>. 
-                    </h5>
+                    <h4 className='highlighted-title'>Fabrication Floor - Section 1A</h4>
                 </div>
             </div>
+            
         </div>
      );
 }

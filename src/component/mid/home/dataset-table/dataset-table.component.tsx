@@ -9,11 +9,15 @@ function DatasetTableComponent(props:DatasetTableProps) {
 
     const datasetPath = props.datasetPath;
 
+    // Only run everytime datasetPath changes
     useEffect(()=>{
+
+        // If props is undefined return nothing
         if(!props.datasetPath){
             return;
         }
 
+        // Otherwise fetch props
         fetch(props.datasetPath)
             .then(res => res.text())
             .then(csvText => {
@@ -32,6 +36,8 @@ function DatasetTableComponent(props:DatasetTableProps) {
 
 
     return ( 
+
+        // 
         <div className="container px-0">
             <div className="main-table-grid">
                 {

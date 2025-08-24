@@ -52,7 +52,7 @@ function HomeComponent(props: HomeComponentProps){
                 
             </div>
 
-            <div className="row p-4"
+            <div className="row p-4 pt-0"
                 id="top-grid-thumbnail-link">
                 
                 { 

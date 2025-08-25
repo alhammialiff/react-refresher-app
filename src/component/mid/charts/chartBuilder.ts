@@ -8,9 +8,9 @@ export const chartBuilder = (plotData: Plot[], chartRef: React.RefObject<SVGSVGE
 
         // Set margin, width and height
         const margin = {
-            top: 20,
+            top: 50,
             right: 20,
-            bottom: 40,
+            bottom: 30,
             left: 50
         }
         const width = window.innerWidth - margin.left - margin.right;
@@ -19,11 +19,20 @@ export const chartBuilder = (plotData: Plot[], chartRef: React.RefObject<SVGSVGE
         // Create SVG with its attributes
         const svg = d3.select(chartRef.current)
             .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
+            .attr("height", height*2/3 + margin.top + margin.bottom)
 
         // This will be where our chart is inserted
         const g = svg.append("g")
             .attr("transform", `translate(${margin.left},${margin.top})`)
+        
+        g.append("text")
+            .attr("x", 20)
+            .attr("y", 0 - (margin.top / 2))
+            .attr("text-anchor", "middle")
+            .style("font-size", "18px")
+            // .style("font-weight", "bold")
+            .style("fill","#333")
+            .text("Machine 01")
         
         // Parse timestamps into Date object
         const parseTime = d3.timeParse("%d-%m-%Y");
@@ -44,17 +53,18 @@ export const chartBuilder = (plotData: Plot[], chartRef: React.RefObject<SVGSVGE
             .range([0,width]);
 
         const yScale = d3.scaleLinear()
-            .domain(d3.extent(data, d => d.data) as [number, number])
-            .range([height, 0]);
+            // .domain(d3.extent(data, d => d.data) as [number, number])
+            .domain([0,200])
+            .range([height*2/3, 0]);
 
         const line = d3.line<any>()
             .x(d => xScale(d.timestamp))
-            .y(d => yScale(d.data))
-            .curve(d3.curveMonotoneX);
+            .y(d => yScale(d.data));
+            // .curve(d3.curveMonotoneX);
 
         // Push xScale to the bottom of the defined height in g via transform translate
         g.append("g")
-            .attr("transform", `translate(0,${height})`)
+            .attr("transform", `translate(0,${height*2/3})`)
             .call(d3.axisBottom(xScale));
         
         g.append("g")

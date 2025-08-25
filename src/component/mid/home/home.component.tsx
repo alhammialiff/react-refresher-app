@@ -1,18 +1,21 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import DatasetCardComponent from './dataset-card/dataset-card.component';
 import DatasetTableComponent from './dataset-table/dataset-table.component';
 import './home.component.scss';
 import { HomeComponentProps } from './types/home.model';
 import JumbotronComponent from '../../header/jumbotron.component';
 import ChartComponent from '../charts/chart.component';
+import { Plot } from '../charts/types/plot.model';
 
 function HomeComponent(props: HomeComponentProps){
 
+    // Set states
     const [selectedDataset, setSelectedDataset] = useState<string | null>(null);
+    const [liveChartData, setLiveChartData] = useState<Plot[]>([]);
 
     // Sample chart data - replace with real data from your API
     // Data shows clear peaks (morning rush, lunch, evening) and troughs (late night, mid-morning)
-    const chartData = [
+    const initialDummyData: Plot[] = [
         { data: 15.2, timestamp: "2024-01-01T00:00:00Z" }, // Midnight - low activity
         { data: 8.5, timestamp: "2024-01-01T01:00:00Z" },  // 1 AM - lowest point
         { data: 12.1, timestamp: "2024-01-01T02:00:00Z" },
@@ -39,7 +42,49 @@ function HomeComponent(props: HomeComponentProps){
         { data: 28.5, timestamp: "2024-01-01T23:00:00Z" }  // Night wind-down
     ];
 
+    // =============================
+    // Use Effect #1 - Initializing data
+    // =============================
+    useEffect(() => {
+        setLiveChartData(initialDummyData)
+    }, []);
+    
+    // =============================
+    // Use Effect #2 - Simulate live data - adding new point every 2 seconds
+    // =============================
+    useEffect(() => {
 
+        // Define interval to generate datapoints
+        const interval = setInterval(() => {
+
+            // Use useState setter to generate new datapoints
+            setLiveChartData((prevData: Plot[]) => {
+
+                // Generate new random data point
+                const newDataPoint = {
+                    data: Math.random() * 80 + 20,
+                    timestamp: new Date().toISOString()
+                }
+
+                // Keep only last 20 data points for performance
+                // This is a very useful way to get new data (spread, add, slice)
+                const updatedData = [
+                    ...prevData,
+                    newDataPoint
+                ].slice(-20)
+
+                return updatedData
+
+            })
+
+        }, 500);
+
+        // Cleanup function to clearinterval on component unmount
+        return () => clearInterval(interval);
+
+    });
+
+    // Return components 
     return (    
         <>  
             <JumbotronComponent />
@@ -61,7 +106,7 @@ function HomeComponent(props: HomeComponentProps){
             {/*  */}
             <div className="row p-4 pt-0">
                 
-                <ChartComponent currentData={chartData} />
+                <ChartComponent currentData={liveChartData} />
                 
             </div>
                 

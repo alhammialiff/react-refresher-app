@@ -1,4 +1,4 @@
 export interface Plot{
     data: number;
-    timestamp: string;
+    timestamp: string | Date;
 }

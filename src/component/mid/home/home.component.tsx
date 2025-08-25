@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import DatasetCardComponent from './dataset-card/dataset-card.component';
 import DatasetTableComponent from './dataset-table/dataset-table.component';
 import './home.component.scss';
@@ -6,41 +6,22 @@ import { HomeComponentProps } from './types/home.model';
 import JumbotronComponent from '../../header/jumbotron.component';
 import ChartComponent from '../charts/chart.component';
 import { Plot } from '../charts/types/plot.model';
+import { generateMultiLevelWave, getDummyTimestamp } from '../../../service/dataset-service/dummy-data-service';
 
 function HomeComponent(props: HomeComponentProps){
 
     // Set states
     const [selectedDataset, setSelectedDataset] = useState<string | null>(null);
     const [liveChartData, setLiveChartData] = useState<Plot[]>([]);
+    const [tickInterval, setTickInterval] = useState<number>(0.5);
+
+    // This xRef refers to the initial x-axis value to generate a multilevel dummy wave
+    const xRef = useRef(0);
 
     // Sample chart data - replace with real data from your API
     // Data shows clear peaks (morning rush, lunch, evening) and troughs (late night, mid-morning)
-    const initialDummyData: Plot[] = [
-        { data: 15.2, timestamp: "2024-01-01T00:00:00Z" }, // Midnight - low activity
-        { data: 8.5, timestamp: "2024-01-01T01:00:00Z" },  // 1 AM - lowest point
-        { data: 12.1, timestamp: "2024-01-01T02:00:00Z" },
-        { data: 18.7, timestamp: "2024-01-01T03:00:00Z" },
-        { data: 25.3, timestamp: "2024-01-01T04:00:00Z" },
-        { data: 42.8, timestamp: "2024-01-01T05:00:00Z" }, // Early morning rise
-        { data: 68.5, timestamp: "2024-01-01T06:00:00Z" },
-        { data: 85.2, timestamp: "2024-01-01T07:00:00Z" }, // Morning peak starts
-        { data: 92.7, timestamp: "2024-01-01T08:00:00Z" }, // Peak morning rush
-        { data: 78.4, timestamp: "2024-01-01T09:00:00Z" },
-        { data: 45.6, timestamp: "2024-01-01T10:00:00Z" }, // Mid-morning trough
-        { data: 38.2, timestamp: "2024-01-01T11:00:00Z" }, // Lowest daytime point
-        { data: 67.9, timestamp: "2024-01-01T12:00:00Z" }, // Lunch peak starts
-        { data: 74.5, timestamp: "2024-01-01T13:00:00Z" }, // Lunch peak
-        { data: 58.3, timestamp: "2024-01-01T14:00:00Z" },
-        { data: 52.7, timestamp: "2024-01-01T15:00:00Z" }, // Afternoon lull
-        { data: 48.9, timestamp: "2024-01-01T16:00:00Z" },
-        { data: 65.4, timestamp: "2024-01-01T17:00:00Z" }, // Evening rise
-        { data: 88.6, timestamp: "2024-01-01T18:00:00Z" }, // Evening peak
-        { data: 95.1, timestamp: "2024-01-01T19:00:00Z" }, // Highest peak
-        { data: 82.7, timestamp: "2024-01-01T20:00:00Z" },
-        { data: 64.3, timestamp: "2024-01-01T21:00:00Z" }, // Evening decline
-        { data: 41.8, timestamp: "2024-01-01T22:00:00Z" },
-        { data: 28.5, timestamp: "2024-01-01T23:00:00Z" }  // Night wind-down
-    ];
+    const initialDummyData: Plot[] = [];
+    const startTime = getDummyTimestamp();
 
     // =============================
     // Use Effect #1 - Initializing data
@@ -48,11 +29,14 @@ function HomeComponent(props: HomeComponentProps){
     useEffect(() => {
         setLiveChartData(initialDummyData)
     }, []);
-    
+
     // =============================
     // Use Effect #2 - Simulate live data - adding new point every 2 seconds
     // =============================
     useEffect(() => {
+
+        xRef.current = 0;
+        setLiveChartData([]);
 
         // Define interval to generate datapoints
         const interval = setInterval(() => {
@@ -60,18 +44,42 @@ function HomeComponent(props: HomeComponentProps){
             // Use useState setter to generate new datapoints
             setLiveChartData((prevData: Plot[]) => {
 
+                const hoursElapsed = Math.floor(xRef.current);
+                const simulatedTime = new Date(startTime.getTime() + (hoursElapsed * 60 * 60 * 1000))
+
                 // Generate new random data point
                 const newDataPoint = {
-                    data: Math.random() * 80 + 20,
-                    timestamp: new Date().toISOString()
+                    // data: Math.random() * 80 + 20,
+                    data: generateMultiLevelWave(xRef.current),
+                    timestamp: simulatedTime.toISOString()
+                }
+
+                // Default to 48 ticks (30 mins interval in a day) 
+                let dataPointsToShow = 48;
+                
+                // 30 mins or 1 hour
+                if(tickInterval <= 1){
+
+                    dataPointsToShow = 48
+
+                // 2 hour or 4 hour
+                }else if(tickInterval <= 4){
+
+                    dataPointsToShow = 24
+
+                // 6 hour
+                }else if(tickInterval <=6){
+
+                    dataPointsToShow = 12
+
                 }
 
                 // Keep only last 20 data points for performance
                 // This is a very useful way to get new data (spread, add, slice)
-                const updatedData = [
-                    ...prevData,
-                    newDataPoint
-                ].slice(-20)
+                const updatedData = [...prevData,newDataPoint].slice(-dataPointsToShow)
+
+
+                xRef.current += tickInterval;
 
                 return updatedData
 
@@ -82,7 +90,7 @@ function HomeComponent(props: HomeComponentProps){
         // Cleanup function to clearinterval on component unmount
         return () => clearInterval(interval);
 
-    });
+    }, [tickInterval]);
 
     // Return components 
     return (    
@@ -99,11 +107,41 @@ function HomeComponent(props: HomeComponentProps){
                 {/* To decide whether to delete or not */}
                 <div className='col'>
                     <div className="row">
+
                     </div>
                 </div>
             </div>
 
-            {/*  */}
+            {/* Dropdown - Tick */}
+            <div className='row p-4 pt-0 justify-content-end'>
+                <div className="col-1">
+                    Interval
+                </div>
+                <div className="col-1">
+                    <form action="">
+                        <select name="duration" 
+                            value={tickInterval}
+                            onChange={(e)=>setTickInterval(Number(e.target.value))}>
+                            <option value={0.5}>
+                                30 mins
+                            </option>
+                            <option value={1}>
+                                1 hour
+                            </option>
+                            <option value={2}>
+                                2 hour
+                            </option>
+                            <option value={4}>
+                                4 hour
+                            </option>
+                            <option value={6}>
+                                6 hour
+                            </option>
+                        </select>
+                    </form>
+                </div>
+            </div>
+
             <div className="row p-4 pt-0">
                 
                 <ChartComponent currentData={liveChartData} />

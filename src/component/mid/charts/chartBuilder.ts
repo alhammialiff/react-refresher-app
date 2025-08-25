@@ -92,7 +92,8 @@ export const chartBuilder = (plotData: Plot[], chartRef: React.RefObject<SVGSVGE
         // Push xScale to the bottom of the defined height in g via transform translate
         g.append("g")
             .attr("transform", `translate(0,${height*2/3})`)
-            .call(d3.axisBottom(xScale));
+            .call(d3.axisBottom(xScale)
+            .ticks(20));
         
         g.append("g")
             .call(d3.axisLeft(yScale));

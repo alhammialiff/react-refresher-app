@@ -26,13 +26,40 @@ export const chartBuilder = (plotData: Plot[], chartRef: React.RefObject<SVGSVGE
             .attr("transform", `translate(${margin.left},${margin.top})`)
         
         g.append("text")
-            .attr("x", 20)
+            .attr("x", 65)
             .attr("y", 0 - (margin.top / 2))
             .attr("text-anchor", "middle")
             .style("font-size", "18px")
             // .style("font-weight", "bold")
             .style("fill","#333")
-            .text("Machine 01")
+            .text("Fabrication Machine 01")
+
+        const legendBaseY = -43;
+        const legendBaseX = 180;
+
+        g.append("rect")
+            .attr("x", legendBaseX)
+            .attr("y", legendBaseY)
+            .attr("width", 100)
+            .attr("height", 25)
+            .attr("fill", "#ccc")
+            // .attr("stroke", "red")
+            // .attr("stroke-width", 1)
+            .attr("rx", 3)
+
+        g.append("circle")
+            .attr("cx", legendBaseX + 80)
+            .attr("cy", legendBaseY + 12)
+            .attr("r", 4)
+            .attr("fill", "steelblue")
+
+        g.append("text")
+            .attr("x", legendBaseX + 20)
+            .attr("y", legendBaseY + 12)
+            .attr("dy", "0.35em")
+            .style("font-size", "12px")
+            .style("fill", "#333")
+            .text("Current")
         
         // Parse timestamps into Date object
         const parseTime = d3.timeParse("%d-%m-%Y");
@@ -88,5 +115,6 @@ export const chartBuilder = (plotData: Plot[], chartRef: React.RefObject<SVGSVGE
             .attr("cy", d => yScale(d.data))
             .attr("r",4)
             .attr("fill","steelblue")
+
 
 }
